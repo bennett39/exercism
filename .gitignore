@@ -5,6 +5,9 @@
 # json logs/metadata
 *.json
 
+# pycache
+__pycache__/
+
 # Logs
 logs
 *.log
