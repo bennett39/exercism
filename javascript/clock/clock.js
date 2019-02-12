@@ -1,24 +1,30 @@
-function rollover(hour, minute) { 
-  hour = (hour + Math.floor(minute/60)) % 24;
-  minute %= 60;
-  if (minute < 0) minute += 60;
-  if (hour < 0) hour += 24;
-  return {hour: hour, minute: minute}
-}
-
 function prependZero(digit) {
   return (digit < 10) ? '0' + String(digit) :  String(digit);
 }  
 
 class Clock {
   constructor (hour, minute) {
-    const time = rollover(hour, minute);
-    this.hour = time.hour;
-    this.minute = time.minute;
-  }
+    let time = hour * 60 + minute;
+    const day = 24 * 60;
 
-  toString() {
-    return [this.hour, this.minute].map(prependZero).join(':');
+    while (time < 0) time += day;
+
+    this.hour = Math.floor((time % day) / 60);
+    this.minute = time % 60;
+
+    this.toString = () => {
+      return [this.hour, this.minute].map(prependZero).join(':');
+    }
+
+    this.plus = (minutes) => {
+      return new this.constructor(this.hour, this.minute + minutes);
+    }
+
+    this.minus = (minutes) => {
+      return new this.constructor(this.hour, this.minute - minutes);
+    }
+
+    this.equals = (other) => this.toString() === other.toString()
   }
 }
 
