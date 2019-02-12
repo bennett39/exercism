@@ -18,7 +18,7 @@ class Clock {
   }
 
   toString() {
-    return prependZero(this.hour) + ':' + prependZero(this.minute);
+    return [this.hour, this.minute].map(prependZero).join(':');
   }
 }
 
