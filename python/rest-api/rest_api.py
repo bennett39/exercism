@@ -12,6 +12,8 @@ class RestAPI(object):
                 response["users"] = self.database["users"]
             else:
                 response["users"] = [user for user in self.database["users"] if user["name"] in payload["users"]]
+        else:
+            response["error"] = "No such URL"
         return json.dumps(response)
 
     def post(self, url, payload=None):
@@ -60,4 +62,6 @@ class RestAPI(object):
                         user["owes"].setdefault(lender, 0)
                         user["owes"][lender] += borrowed
             response = self.get('/users', json.dumps({'users': [lender, borrower]}))
+        else:
+            response = json.dumps({'error': 'No such URL'})
         return response
